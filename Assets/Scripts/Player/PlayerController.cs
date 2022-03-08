@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
     private bool _isFainting = false;
 
     #endregion
+    private bool top;
     
     private void Awake()
     {
@@ -132,24 +133,37 @@ public class PlayerController : MonoBehaviour
             {
                 _isJumpDown = false; //we have now used up this button press
 
-                if (IsOnGround())
-                {
-                    _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
-                }
+                _rb.gravityScale *= -1;
+                Rotation();
+
+ 
             }
             
             // if jump is held down
             // lower gravity to affect a lift while jumping up
             // otherwise gravity goes back to normal (gravityFall)
-            if (_isJumpHeldDown && _rb.velocity.y > 0)
+            /*if (_isJumpHeldDown && _rb.velocity.y > 0)
             {
                 _rb.gravityScale = gravityFloat;
             }
             else
             {
                 _rb.gravityScale = gravityFall;
-            }
+            }*/
         }
+    }
+
+    void Rotation()
+    {
+        if(top == false)
+        {
+            transform.eulerAngles = new Vector3(0, 0, 180f);
+        } else
+        {
+            transform.eulerAngles = Vector3.zero;
+        }
+
+        top = !top;
     }
     
     private bool IsOnGround()
